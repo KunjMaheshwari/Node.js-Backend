@@ -15,3 +15,6 @@ POST /api/users - Create a new user
 PATCH /api/users/id - Edit the user with id 1
 
 DELETE /api/users/1 - Delete the user with id 1
+
+POSTMAN - Postman is a utility tool which helps in API Testing and documentation.
+
