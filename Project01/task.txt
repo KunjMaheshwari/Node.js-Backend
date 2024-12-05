@@ -21,3 +21,5 @@ POSTMAN - Postman is a utility tool which helps in API Testing and documentation
 Middleware - Middleware are the functions which verify each and every req and 
 response. We can have multiple Middleware in our function.
 
+HTTP Headers - HTTP Headers are the meta data that are associated with the API req and res.
+
