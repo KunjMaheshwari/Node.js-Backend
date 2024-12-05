@@ -18,3 +18,6 @@ DELETE /api/users/1 - Delete the user with id 1
 
 POSTMAN - Postman is a utility tool which helps in API Testing and documentation.
 
+Middleware - Middleware are the functions which verify each and every req and 
+response. We can have multiple Middleware in our function.
+

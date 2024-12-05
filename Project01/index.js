@@ -8,7 +8,29 @@ const users = require("./MOCK_DATA.json");
 const app = express();
 const PORT = 8000;
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false })); // middleware and this is a built in middleware.
+//this middleware basically converts all the data that we are getting from frontend to Objects.
+
+// app.use((req, res, next) =>{ // next is the reference of the next middleware in our application.
+//     console.log("Hello from Middleware M1");
+//     // return res.json({msg : "Hello From Middleware M1"});
+//     // req.myUserName = "kunjmaheshwari.dev";
+//     next();
+// })
+
+// app.use((req, res, next) =>{ // Middleware 2
+//     console.log("Hello from Middleware M2");
+//     // return res.end("Hey");
+//     next();
+// })
+
+app.use((res, req, next) => {
+    fs.appendFile('log.txt', `${Date.now()}: ${req.method}: ${req.path}`,
+        (err, data) => {
+            next();
+        }
+    );
+});
 
 app.get("/users", (req, res) => {
     const html = `
@@ -24,20 +46,20 @@ app.get("/api/users", (req, res) => {
     return res.json(users);
 })
 
-app.get("/api/users/:id", (req, res) =>{
+app.get("/api/users/:id", (req, res) => {
     const id = Number(req.params.id);
     const user = users.find((user) => user.id === id);
     return res.json(user);
 })
 
-app.post("/api/users", (req, res)=>{
+app.post("/api/users", (req, res) => {
     // Create a new user
     const body = req.body;
-    users.push({...body, id: users.length});
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) =>{
-        return res.json({status: "pending"});
+    users.push({ ...body, id: users.length });
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+        return res.json({ status: "pending" });
     })
-    return res.json({status : "Successs"});
+    return res.json({ status: "Successs" });
 })
 
 app.patch("/api/users/:id", (req, res) => {
