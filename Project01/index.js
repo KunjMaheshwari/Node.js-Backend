@@ -51,15 +51,20 @@ app.get("/api/users", (req, res) => {
 app.get("/api/users/:id", (req, res) => {
     const id = Number(req.params.id);
     const user = users.find((user) => user.id === id);
+    if(!user) return res.status(404).json({ msg: "Invalid id."});
     return res.json(user);
 })
 
 app.post("/api/users", (req, res) => {
     // Create a new user
     const body = req.body;
+    // HTTP Status
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title){
+        return res.status(400).json({ msg : "All fields are required."});
+    }
     users.push({ ...body, id: users.length });
     fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
-        return res.json({ status: "pending" });
+        return res.status(201).json({ status: "pending" });
     })
     return res.json({ status: "Successs" });
 })
