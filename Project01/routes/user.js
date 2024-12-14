@@ -1,6 +1,6 @@
 const express = require("express");
 
-const {handleGetAllUsers} = require("../controllers/user");
+const {handleGetAllUsers, handleGetUserById} = require("../controllers/user");
 
 const router = express.Router();
 
@@ -24,13 +24,13 @@ router.get("/", async (req, res) => {
     return res.json(allDbUsers);
 })
 
-router.get("/:id", async (req, res) => {
-    // const id = Number(req.params.id);
-    // const user = users.find((user) => user.id === id);
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ msg: "Invalid id." });
-    return res.json(user);
-})
+// router.get("/:id", async (req, res) => {
+//     // const id = Number(req.params.id);
+//     // const user = users.find((user) => user.id === id);
+    
+// })
+
+router.get("/:id", handleGetUserById);
 
 router.post("/", (req, res) => {
     // Create a new user
