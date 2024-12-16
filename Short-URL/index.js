@@ -9,6 +9,8 @@ const staticRoute = require("./routes/staticRouter");
 const app = express();
 const PORT = 8001;
 
+const userRoute = require("./routes/user");
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
@@ -20,6 +22,7 @@ connectToMongoDB('mongodb://localhost:27017/short-url').then(() =>{
 })
 
 app.use("/", staticRoute);
+app.use("/user", userRoute);
 
 // app.get('/test', async(req, res) =>{ // server side rendering means displaying html content on the web page.
 //     const allUrl = await URL.find({});
