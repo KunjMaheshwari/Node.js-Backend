@@ -2,19 +2,37 @@ const express = require("express");
 const urlRoute = require('./routes/url');
 const {connectToMongoDB} = require("./connect");
 const URL = require("./models/url");
+const path = require("path");
+
+const staticRoute = require("./routes/staticRouter");
 
 const app = express();
 const PORT = 8001;
 
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
+
 app.use(express.json());
+app.use(express.urlencoded({extended : false}));
 
 connectToMongoDB('mongodb://localhost:27017/short-url').then(() =>{
     console.log("MongoDB Connected!");
 })
 
+app.use("/", staticRoute);
+
+// app.get('/test', async(req, res) =>{ // server side rendering means displaying html content on the web page.
+//     const allUrl = await URL.find({});
+//     return res.render("home", {
+//         urls: allUrl,
+//     });
+// })
+
+
+
 app.use("/url", urlRoute);
 
-app.get("/:shortId", async(req, res) =>{
+app.get("/url/:shortId", async(req, res) =>{
     const shortId = req.params.shortId;
     const entry = await URL.findOneAndUpdate({
         shortId
